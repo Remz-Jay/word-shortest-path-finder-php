@@ -1,5 +1,12 @@
 <?php namespace wspf;
 
+/**
+ * SPL autoloader for package wspf.
+ * Primarily used for PHPUnit autoloading.
+ * @package wspf
+ * @copyright (c) 2015 Remco Overdijk <remco@maxserv.com>
+ * @license http://www.gnu.org/copyleft/gpl.html. GPLv3
+ */
 spl_autoload_register(function ($class) {
 	/**
 	 * Usually we would use `require_once`, but PHPUnit has a nasty habit of aggresively looking

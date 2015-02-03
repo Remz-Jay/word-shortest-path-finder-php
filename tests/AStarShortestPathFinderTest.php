@@ -91,7 +91,8 @@ class AStarShortestPathFinderTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(array('bar', 'bor', 'boo'), $result);
 	}
 
-	public function testCannotFindBogusWords() {
+	public function testCannotFindBogusWords()
+	{
 		$fn = '/usr/share/dict/words';
 		$this->assertFileExists($fn);
 		$spf = new AStarShortestPathFinder($fn, 'zz', 'qq');

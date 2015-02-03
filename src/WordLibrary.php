@@ -6,13 +6,19 @@
  * Can be loaded from file using the `withFileName` Factory.
  *
  * @package wspf
+ * @copyright (c) 2015 Remco Overdijk <remco@maxserv.com>
+ * @license http://www.gnu.org/copyleft/gpl.html. GPLv3
  */
 class WordLibrary
 {
 	/**
-	 * @var Array <String>
+	 * @var Array <String> - An array containing all words in the dictionary. One per slot.
 	 */
 	private $wordList;
+
+	/**
+	 * @var bool - Whether we match case sensitive.
+	 */
 	private $caseSensitive = true;
 
 	/**
@@ -61,7 +67,8 @@ class WordLibrary
 	}
 
 	/**
-	 * @param $fn
+	 * Loads $wordList from a filename
+	 * @param $fn - path to dictionary file
 	 * @throws \ErrorException
 	 */
 	private function loadByFileName($fn)
@@ -73,7 +80,9 @@ class WordLibrary
 	}
 
 	/**
-	 * @param $stringLength
+	 * Filters the wordList by stringlength.
+	 * This greatly reduces processing time when matching against the dictionary.
+	 * @param $stringLength - length of strings to keep in the dictionary
 	 * @throws \ErrorException
 	 */
 	public function reduceSetByStringLength($stringLength)
@@ -92,6 +101,7 @@ class WordLibrary
 	}
 
 	/**
+	 * Getter for $this->wordList
 	 * @return Array
 	 */
 	public function getWordList()
@@ -100,6 +110,7 @@ class WordLibrary
 	}
 
 	/**
+	 * Boolean Getter for $this->caseSensitive;
 	 * @return boolean
 	 */
 	public function isCaseSensitive()

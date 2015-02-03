@@ -3,40 +3,67 @@
 /**
  * Class AStarShortestPathFinder
  * @package wspf
+ * @copyright (c) 2015 Remco Overdijk <remco@maxserv.com>
+ * @license http://www.gnu.org/copyleft/gpl.html. GPLv3
+ *
+ * Implements a PHP A* algoritm with hamming distance as heuristic.
+ * See: http://stackoverflow.com/a/1521973/813718
+ * Pseudo Code for A*: http://en.wikipedia.org/wiki/A*_search_algorithm
+ *
+ * Limitations:
+ * - Only one letter may be changed each step
+ * - Each (intermediate) word must appear in the loaded dictionary
+ * - Current implementation is Case INSensitive -- only lowercase matches.
  */
 class AStarShortestPathFinder
 {
 
+	/**
+	 * @var array - The set of nodes already evaluated.
+	 */
 	private $closedSet = array();
 
+	/**
+	 * @var array - The set of tentative nodes to be evaluated, initially containing the start node.
+	 */
 	private $openSet = array();
 
+	/**
+	 * @var array - The map of navigated nodes.
+	 */
 	private $cameFrom = array();
 
+	/**
+	 * @var array - Cost from start along best known path.
+	 */
 	private $gScore = array();
 
+	/**
+	 * @var array - Estimated total cost from start to goal through y.
+	 */
 	private $fScore = array();
 
 	/**
-	 * @var String
+	 * @var String - Reference to input string.
 	 */
 	private $startString;
 
 	/**
-	 * @var String
+	 * @var String - Reference to target string.
 	 */
 	private $endString;
 
 
 	/**
-	 * @var WordLibrary
+	 * @var WordLibrary - The dictionary object we reference intermediates against.
 	 */
 	private $wl;
 
 	/**
-	 * @param $library
-	 * @param $start
-	 * @param $end
+	 * Constructor for AStarShortestPathFinder
+	 * @param $library - path to a word library file
+	 * @param $start - input string
+	 * @param $end - target string
 	 * @throws \ErrorException
 	 * @throws \LengthException
 	 */
@@ -67,9 +94,11 @@ class AStarShortestPathFinder
 	}
 
 	/**
-	 * @param $a
-	 * @param $b
-	 * @return int
+	 * Calculates the Hamming Distance between strings A and B
+	 * See: http://en.wikipedia.org/wiki/Hamming_distance
+	 * @param $a - left side string
+	 * @param $b - right side string
+	 * @return int - hamming distance in characters
 	 */
 	private function hammingDistance($a, $b)
 	{
@@ -78,8 +107,10 @@ class AStarShortestPathFinder
 	}
 
 	/**
-	 * @param $input
-	 * @return array
+	 * Finds neighbors for a given word based on the dictionary
+	 * Can only return direct neighbors with a hamming distance of 1.
+	 * @param $input - word to search relatives for
+	 * @return array - all neighbors with hamming distance == 1
 	 */
 	private function findRelativesFor($input)
 	{
@@ -94,9 +125,10 @@ class AStarShortestPathFinder
 
 	/**
 	 *
-	 * PHP implementation of http://en.wikipedia.org/wiki/A*_search_algorithm
+	 * PHP implementation of pseudocode at http://en.wikipedia.org/wiki/A*_search_algorithm
+	 * Primary method for this Class. To be called after construction.
 	 *
-	 * @return array|bool
+	 * @return array|bool - An array with the path segments on success. False on failure.
 	 */
 	public function go()
 	{
@@ -162,9 +194,11 @@ class AStarShortestPathFinder
 	}
 
 	/**
-	 * @param $cameFrom
-	 * @param $current
-	 * @return array
+	 * Traverses the shortest path found once a path has been calculated.
+	 * Reverses the path to match in -> out.
+	 * @param $cameFrom - Reference to array containing neighbor steps
+	 * @param $current - Current step in relation to $cameFrom
+	 * @return array - An array with the path segments, ordered from in -> out.
 	 */
 	private function reconstructPath(&$cameFrom, $current)
 	{
