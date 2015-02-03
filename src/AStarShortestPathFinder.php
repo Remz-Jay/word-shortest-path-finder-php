@@ -42,6 +42,7 @@ class AStarShortestPathFinder
 	 */
 	public function __construct($library, $start, $end)
 	{
+		$startTime = microtime(true);
 		if (!is_string($start) || strlen($start) < 2) {
 			throw new \ErrorException('$start is not a valid string');
 		}
@@ -58,6 +59,11 @@ class AStarShortestPathFinder
 		$this->gScore[$start] = 0;
 		$this->fScore[$start] = $this->gScore[$start] + $this->hammingDistance($start, $this->endString);
 		$this->openSet[] = $start;
+		$endTime = microtime(true);
+		$execTime = ($endTime - $startTime);
+		if ($_ENV['VERBOSE']) {
+			echo 'A*SPF setup took: ' . $execTime . ' seconds.' . PHP_EOL;
+		}
 	}
 
 	/**
@@ -94,6 +100,7 @@ class AStarShortestPathFinder
 	 */
 	public function go()
 	{
+		$startTime = microtime(true);
 		while (count($this->openSet)>0) {
 			$current = false;
 			$currentFScore = false;
@@ -105,7 +112,22 @@ class AStarShortestPathFinder
 				}
 			}
 			if ($current == $this->endString) {
-				return $this->reconstructPath($this->cameFrom, $current);
+				$path = $this->reconstructPath($this->cameFrom, $current);
+				$endTime = microtime(true);
+				$execTime = ($endTime - $startTime);
+
+				if ($_ENV['VERBOSE']) {
+					$format = 'Finding a path from %s to %s took %f seconds. %d elements in path: %s.';
+					echo sprintf(
+						$format,
+						$this->startString,
+						$this->endString,
+						$execTime,
+						count($path),
+						implode(' → ', $path)
+					) . PHP_EOL;
+				}
+				return $path;
 			}
 			unset($this->openSet[array_search($current, $this->openSet)]);
 			$this->closedSet[] = $current;

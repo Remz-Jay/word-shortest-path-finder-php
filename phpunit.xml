@@ -12,6 +12,8 @@
 		<!-- To prevent test failure on "equal or better" results, "loose" testing
 		is enabled by default. Disable to do strict matching on example solutions. -->
 		<env name="PHPUNIT_LOOSE" value="true"/>
+		<!-- To enable verbose output, use this env flag: -->
+		<env name="VERBOSE" value="true"/>
 	</php>
 	<testsuites>
 		<testsuite name="shortest-word-path">
