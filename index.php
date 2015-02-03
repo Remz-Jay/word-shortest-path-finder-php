@@ -7,5 +7,7 @@
  * Best results are achieved by ignoring this file and running the phpunit tests instead.
  */
 require_once('src/autoload.php');
-$asspf = new AStarShortestPathFinder('/usr/share/dict/words', 'flux', 'alem');
+ini_set('variables_order', 'EGPCS');
+$_ENV['VERBOSE'] = true;
+$asspf = new wspf\AStarShortestPathFinder('/usr/share/dict/words', 'zq', 'qz');
 var_dump($asspf->go());
