@@ -146,6 +146,18 @@ class AStarShortestPathFinder
 				}
 			}
 		}
+		$endTime = microtime(true);
+		$execTime = ($endTime - $startTime);
+
+		if ($_ENV['VERBOSE']) {
+			$format = 'It took %f seconds to figure out that no path exists from %s to %s';
+			echo sprintf(
+				$format,
+				$execTime,
+				$this->startString,
+				$this->endString
+			). PHP_EOL;
+		}
 		return false;
 	}
 

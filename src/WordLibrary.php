@@ -98,4 +98,12 @@ class WordLibrary
 	{
 		return $this->wordList;
 	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isCaseSensitive()
+	{
+		return $this->caseSensitive;
+	}
 }

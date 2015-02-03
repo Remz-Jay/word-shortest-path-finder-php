@@ -29,4 +29,66 @@ class WordLibraryTest extends \PHPUnit_Framework_TestCase
 		$this->setExpectedException('ErrorException', 'Word Library could not be found');
 		WordLibrary::withFileName($fn);
 	}
+	public function testCanSetCaseInsensitive()
+	{
+		$fn = '/usr/share/dict/words';
+		$this->assertFileExists($fn);
+
+		$a = WordLibrary::withFileName($fn)->setCaseInsensitive();
+		$this->assertInstanceOf('wspf\WordLibrary', $a);
+		$this->assertFalse($a->isCaseSensitive());
+	}
+	public function testCanSetCaseSensitive()
+	{
+		$fn = '/usr/share/dict/words';
+		$this->assertFileExists($fn);
+
+		$a = WordLibrary::withFileName($fn)->setCaseSensitive();
+		$this->assertInstanceOf('wspf\WordLibrary', $a);
+		$this->assertTrue($a->isCaseSensitive());
+	}
+	public function testCanReduceByStringLength()
+	{
+		$fn = '/usr/share/dict/words';
+		$this->assertFileExists($fn);
+
+		$a = WordLibrary::withFileName($fn);
+		$a->reduceSetByStringLength(5);
+	}
+	public function testCannotReduceByString()
+	{
+		$fn = '/usr/share/dict/words';
+		$this->assertFileExists($fn);
+
+		$a = WordLibrary::withFileName($fn);
+		$this->setExpectedException('ErrorException', 'Cannot recude by a non-numeric value');
+		$a->reduceSetByStringLength('failure');
+	}
+	public function testCannotReduceByNull()
+	{
+		$fn = '/usr/share/dict/words';
+		$this->assertFileExists($fn);
+
+		$a = WordLibrary::withFileName($fn);
+		$this->setExpectedException('ErrorException', 'Cannot recude by a non-numeric value');
+		$a->reduceSetByStringLength(null);
+	}
+	public function testCannotReduceByBoolean()
+	{
+		$fn = '/usr/share/dict/words';
+		$this->assertFileExists($fn);
+
+		$a = WordLibrary::withFileName($fn);
+		$this->setExpectedException('ErrorException', 'Cannot recude by a non-numeric value');
+		$a->reduceSetByStringLength(true);
+	}
+	public function testCannotReduceByFloat()
+	{
+		$fn = '/usr/share/dict/words';
+		$this->assertFileExists($fn);
+
+		$a = WordLibrary::withFileName($fn);
+		$this->setExpectedException('ErrorException', 'Cannot recude by a non-numeric value');
+		$a->reduceSetByStringLength(2.337);
+	}
 }
