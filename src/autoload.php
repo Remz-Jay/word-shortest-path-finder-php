@@ -1,4 +1,5 @@
-<?php
+<?php namespace wspf;
+
 spl_autoload_register(function ($class) {
 	/**
 	 * Usually we would use `require_once`, but PHPUnit has a nasty habit of aggresively looking
@@ -10,5 +11,6 @@ spl_autoload_register(function ($class) {
 	 * The testSuite will fail anyway if anything essential is missing.
 	 * */
 
-	@include_once 'src/' . $class . '.php';
+	/** @noinspection PhpIncludeInspection */
+	@include_once 'src/' . end(explode('\\', $class)) . '.php';
 });

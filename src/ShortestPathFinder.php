@@ -1,5 +1,12 @@
-<?php
-class ShortestPathFinder {
+<?php namespace wspf;
+
+/**
+ * Class ShortestPathFinder
+ * @package wspf
+ */
+class ShortestPathFinder
+{
+
 	/**
 	 * @var WordLibrary
 	 */
@@ -30,36 +37,61 @@ class ShortestPathFinder {
 	 */
 	private $paths = array();
 
-	public function __construct($library, $start, $end) {
+	/**
+	 * @param $library
+	 * @param $start
+	 * @param $end
+	 * @throws \ErrorException
+	 * @throws \LengthException
+	 */
+	public function __construct($library, $start, $end)
+	{
 		$this->wl = WordLibrary::withFileName($library);
-		if(!is_string($start) || strlen($start) < 2) throw new ErrorException('$start is not a valid string');
-		if(!is_string($end) || strlen($end) < 2) throw new ErrorException('$end is not a valid string');
-		if(strlen($start) !== strlen($end)) throw new LengthException('This program expects both strings to be of equal length.');
+		if (!is_string($start) || strlen($start) < 2) {
+			throw new \ErrorException('$start is not a valid string');
+		}
+		if (!is_string($end) || strlen($end) < 2) {
+			throw new \ErrorException('$end is not a valid string');
+		}
+		if (strlen($start) !== strlen($end)) {
+			throw new \LengthException('This program expects both strings to be of equal length.');
+		}
 		$this->startString = $start;
 		$this->endString = $end;
 		$this->wl->reduceSetByStringLength(strlen($start));
 		array_push($this->globalHits, $start, $end);
 	}
 
-	private function findRelativesFor($input) {
+	/**
+	 * @param $input
+	 * @return array
+	 */
+	private function findRelativesFor($input)
+	{
 		$close = array();
-		foreach($this->wl->getWordList() as $w) {
-			if($this->HammingDistance($input, $w) === 1) {
+		foreach ($this->wl->getWordList() as $w) {
+			if ($this->hammingDistance($input, $w) === 1) {
 				$close[] = $w;
 			}
 		}
 		return $close;
 	}
 
-	private function doRound($input, $callStack = array()) {
+	/**
+	 * @param $input
+	 * @param array $callStack
+	 * @return bool
+	 */
+	private function doRound($input, $callStack = array())
+	{
 		$callStack[] = $input;
 		if (is_string($input)) {
 			$matches = $this->findRelativesFor($input);
-			if(in_array($this->endString, $matches)) {
+			if (in_array($this->endString, $matches)) {
 				$callStack[] = $this->endString;
 				//we found an out. Calculate the path length
 				$this->paths[] = $callStack;
-				if($this->shortestPathFound === null || (count($callStack)<$this->shortestPathFound)) {
+				if ($this->shortestPathFound === null || (count($callStack)<$this->shortestPathFound)) {
 					$this->shortestPathFound = count($callStack);
 				}
 				return true;
@@ -71,24 +103,24 @@ class ShortestPathFinder {
 			//echo "Hits:" . var_export($trueMatches, true);
 			$hdtt = null;
 			$wordsToUse = array();
-			foreach($trueMatches as $m) {
+			foreach ($trueMatches as $m) {
 				//calculate the Hamming distance to the target and only use the closest match to continue.
-				$x = $this->HammingDistance($m, $this->endString);
+				$x = $this->hammingDistance($m, $this->endString);
 				if ($hdtt === null || $x < $hdtt) {
 					//shorter match found, use this instead
 					$hdtt = $x;
 					$wordsToUse = array($m);
-				} else if ($x == $hdtt) {
+				} elseif ($x == $hdtt) {
 					//same length, add to words to use
 					$wordsToUse[] = $m;
 				}
-                foreach($wordsToUse as $w) {
-	                //do another round if this route isn't any longer than we've already found
-	                if($this->shortestPathFound === null || count($callStack)+1 <= $this->shortestPathFound) {
-		                //if($this->doRound($m, $callStack)) return true;
-		                $this->doRound($m, $callStack);
-	                }
-                }
+				foreach ($wordsToUse as $w) {
+					//do another round if this route isn't any longer than we've already found
+					if ($this->shortestPathFound === null || count($callStack)+1 <= $this->shortestPathFound) {
+						//if($this->doRound($m, $callStack)) return true;
+						$this->doRound($w, $callStack);
+					}
+				}
 			}
 			return false;
 		} else {
@@ -96,20 +128,27 @@ class ShortestPathFinder {
 		}
 	}
 
-	public function go() {
+	public function go()
+	{
 		$this->doRound($this->startString);
 		echo PHP_EOL;
 		echo "Shortest path found:" . $this->shortestPathFound . PHP_EOL;
 		echo "=====================" . PHP_EOL;
-		foreach($this->paths as $p) {
-			if(count($p) == $this->shortestPathFound) {
+		foreach ($this->paths as $p) {
+			if (count($p) == $this->shortestPathFound) {
 				var_dump($p);
 				echo PHP_EOL;
 			}
 		}
 	}
 
-	private function HammingDistance($a, $b) {
+	/**
+	 * @param $a
+	 * @param $b
+	 * @return int
+	 */
+	private function hammingDistance($a, $b)
+	{
 		$res = array_diff_assoc(str_split($a), str_split($b));
 		return count($res);
 	}
