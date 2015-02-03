@@ -37,7 +37,7 @@ class AStarShortestPathFinder
 		if(strlen($start) !== strlen($end)) throw new LengthException('This program expects both strings to be of equal length.');
 		$this->startString = $start;
 		$this->endString = $end;
-		$this->wl = WordLibrary::withFileName($library);
+		$this->wl = WordLibrary::withFileName($library)->setCaseInsensitive();
 		$this->wl->reduceSetByStringLength(strlen($start));
 		$this->gScore[$start] = 0;
 		$this->fScore[$start] = $this->gScore[$start] + $this->HammingDistance($start, $this->endString);

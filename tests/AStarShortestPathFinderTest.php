@@ -8,7 +8,7 @@ class AStarShortestPathFinderTest extends PHPUnit_Framework_TestCase {
 		$fn = '/usr/share/dict/words';
 		$this->assertFileExists($fn);
 		//as the algorithm is dictionary based, fist check if the set being tested is valid
-		$wl = WordLibrary::withFileName($fn);
+		$wl = WordLibrary::withFileName($fn)->setCaseInsensitive();
 		$startStringLength = strlen(current($expectedResult));
 		$wl->reduceSetByStringLength($startStringLength);
 		reset($expectedResult);
