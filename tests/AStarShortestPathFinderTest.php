@@ -119,7 +119,6 @@ class AStarShortestPathFinderTest extends \PHPUnit_Framework_TestCase
 		$expectedResult = array('doeg', 'dong', 'song', 'sing', 'sink', 'sick');
 		$this->runWordTest($expectedResult);
 	}
-	/**
 	public function testCanFindJehuGuha()
 	{
 		$expectedResult = array('jehu', 'jesu', 'jest', 'gest', 'gent', 'gena', 'guna', 'guha');
@@ -144,7 +143,7 @@ class AStarShortestPathFinderTest extends \PHPUnit_Framework_TestCase
 	{
 		$expectedResult = array('jina', 'pina', 'pint', 'pent', 'peat', 'prat','pray');
 		$this->runWordTest($expectedResult);
-	}**/
+	}
 	public function testCanFindFikeCamp()
 	{
 		$expectedResult = array('fike', 'fire', 'fare', 'care', 'carp', 'camp');
