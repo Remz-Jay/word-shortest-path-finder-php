@@ -88,6 +88,13 @@ class AStarShortestPathFinderTest extends \PHPUnit_Framework_TestCase
 		$spf = new AStarShortestPathFinder($fn, 'bar', 'boo');
 		$result = $spf->go();
 		$this->assertCount(3, $result);
+		$this->assertThat(
+			$result,
+			$this->equalTo(array('bar', 'bor', 'boo')),
+			$this->logicalOr(
+				$this->equalTo(array('bar', 'bao', 'boo'))
+			)
+		);
 		$this->assertEquals(array('bar', 'bor', 'boo'), $result);
 	}
 
