@@ -90,8 +90,8 @@ class AStarShortestPathFinderTest extends \PHPUnit_Framework_TestCase
 		$this->assertCount(3, $result);
 		$this->assertThat(
 			$result,
-			$this->equalTo(array('bar', 'bor', 'boo')),
 			$this->logicalOr(
+				$this->equalTo(array('bar', 'bor', 'boo')),
 				$this->equalTo(array('bar', 'bao', 'boo'))
 			)
 		);
@@ -102,7 +102,7 @@ class AStarShortestPathFinderTest extends \PHPUnit_Framework_TestCase
 	{
 		$fn = '/usr/share/dict/words';
 		$this->assertFileExists($fn);
-		$spf = new AStarShortestPathFinder($fn, 'gg', 'hh');
+		$spf = new AStarShortestPathFinder($fn, 'kk', 'jj');
 		$result = $spf->go();
 		$this->assertFalse($result);
 	}
