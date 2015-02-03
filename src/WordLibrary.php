@@ -34,13 +34,4 @@ class WordLibrary
 	{
 		return $this->wordList;
 	}
-
-	/**
-	 * @param Array $wordList
-	 */
-	public function setWordList($wordList)
-	{
-		$this->wordList = $wordList;
-	}
-
 }
