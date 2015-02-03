@@ -1,7 +1,4 @@
 <?php
-require_once('src/AStarShortestPathFinder.php');
-require_once('src/WordLibrary.php');
-
 class AStarShortestPathFinderTest extends PHPUnit_Framework_TestCase {
 
 	private function runWordTest($expectedResult) {
@@ -19,10 +16,16 @@ class AStarShortestPathFinderTest extends PHPUnit_Framework_TestCase {
 		reset($expectedResult);
 		$spf = new AStarShortestPathFinder($fn, current($expectedResult), end($expectedResult));
 		$output = $spf->go();
-		//check if we have actually found the shortest path
-		$this->assertCount(count($expectedResult), $output);
-		//check if we have the same shortest path as the solution predicts.
-		$this->assertEquals($expectedResult, $output);
+		if($_ENV['PHPUNIT_LOOSE']) {
+			//only check if our result is 'equal or better' compared to the example
+			$this->assertGreaterThan(1, count($output));
+			$this->assertLessThanOrEqual(count($expectedResult), count($output));
+		} else {
+			//check if we have actually found the shortest path
+			$this->assertCount(count($expectedResult), $output);
+			//check if we have the same shortest path as the solution predicts.
+			$this->assertEquals($expectedResult, $output);
+		}
 	}
 
 	public function testCanFindFluxAlem() {

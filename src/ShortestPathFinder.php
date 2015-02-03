@@ -1,6 +1,4 @@
 <?php
-require_once('src/WordLibrary.php');
-
 class ShortestPathFinder {
 	/**
 	 * @var WordLibrary

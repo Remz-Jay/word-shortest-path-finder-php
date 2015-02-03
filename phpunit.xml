@@ -1,0 +1,22 @@
+<phpunit
+		bootstrap="src/autoload.php"
+		colors="true"
+		debug="true"
+		verbose="true">
+	<logging>
+		<log type="coverage-html" target="coverage" lowUpperBound="35"
+		     highLowerBound="70"/>
+		<log type="junit" target="junit-report.xml" logIncompleteSkipped="false"/>
+	</logging>
+	<php>
+		<!-- To prevent test failure on "equal or better" results, "loose" testing
+		is enabled by default. Disable to do strict matching on example solutions. -->
+		<env name="PHPUNIT_LOOSE" value="true"/>
+	</php>
+	<testsuites>
+		<testsuite name="shortest-word-path">
+			<file>tests/WordLibraryTest.php</file>
+			<file>tests/AStarShortestPathFinderTest.php</file>
+		</testsuite>
+	</testsuites>
+</phpunit>

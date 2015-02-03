@@ -1,6 +1,4 @@
 <?php
-require_once('src/WordLibrary.php');
-
 class WordLibraryTest extends PHPUnit_Framework_TestCase {
 	public function testCanBeLoadedFromFile() {
 		$fn = '/usr/share/dict/words';
