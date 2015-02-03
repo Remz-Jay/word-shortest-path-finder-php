@@ -50,3 +50,5 @@ crashlytics-build.properties
 #IDE
 atlassian-ide-plugin.xml
 
+#PHPUnit
+coverage/
