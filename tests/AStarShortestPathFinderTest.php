@@ -95,7 +95,7 @@ class AStarShortestPathFinderTest extends \PHPUnit_Framework_TestCase
 	{
 		$fn = '/usr/share/dict/words';
 		$this->assertFileExists($fn);
-		$spf = new AStarShortestPathFinder($fn, 'zz', 'qq');
+		$spf = new AStarShortestPathFinder($fn, 'gg', 'hh');
 		$result = $spf->go();
 		$this->assertFalse($result);
 	}
