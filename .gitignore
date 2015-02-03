@@ -52,3 +52,4 @@ atlassian-ide-plugin.xml
 
 #PHPUnit
 coverage/
+junit-report.xml
