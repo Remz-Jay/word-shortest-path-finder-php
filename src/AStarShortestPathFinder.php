@@ -74,7 +74,9 @@ class AStarShortestPathFinder
 					$currentFScore = $nodeFScore;
 				}
 			}
+			echo "Current: " . $current . PHP_EOL;
 			if($current == $this->endString) {
+
 				return $this->reconstructPath($this->cameFrom, $current);
 			}
 			unset($this->openSet[array_search($current,$this->openSet)]);
